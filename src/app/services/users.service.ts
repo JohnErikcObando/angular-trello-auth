@@ -4,6 +4,8 @@ import { evironment } from '../../../environments/environments';
 import { TokenService } from './token.service';
 import { User } from '@models/user';
 
+import { checkToken } from '../intercertor/token.interceptor';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -17,9 +19,7 @@ export class UsersService {
   getAll() {
     const token = this.tokenService.getToken();
     return this.http.get<User[]>(`${this.apiUrl}/users`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      context: checkToken(),
     });
   }
 }

@@ -10,12 +10,12 @@ export class AuthGuard {
   constructor(private tokenService: TokenService, private router: Router) {}
 
   canActivate(): boolean {
-    const token = this.tokenService.getToken();
-    console.log(token);
+    const isValidToken = this.tokenService.isValidRefreshToken();
 
-    if (!token) {
+    console.log('tokenService isValidToken', isValidToken);
+
+    if (isValidToken) {
       this.router.navigate(['/login']);
-      return false;
     }
     return true;
   }
